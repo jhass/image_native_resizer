@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class ImageNativeResizer {
@@ -9,7 +7,7 @@ class ImageNativeResizer {
 
   /// Lock for ensuring that only one [resize] method call is running
   /// at a given time.
-  static Future<Null> _isResizing;
+  static Future<Null>? _isResizing;
 
   /// Resizes the image at the given [imagePath] to the given
   /// [maxWidth], [maxHeight] and/or [quality].
@@ -18,13 +16,12 @@ class ImageNativeResizer {
   /// [maxHeight], the original image can be returned.
   ///
   /// The [quality] must be a value between `0` and `100`.
-  static Future<String> resize({
-    @required String imagePath,
-    double maxWidth,
-    double maxHeight,
-    int quality,
+  static Future<String?> resize({
+    required String imagePath,
+    double? maxWidth,
+    double? maxHeight,
+    int? quality,
   }) async {
-    assert(imagePath != null);
     assert(quality == null || (quality >= 0 && quality <= 100));
 
     if (_isResizing != null) {
@@ -40,7 +37,7 @@ class ImageNativeResizer {
     // lock
     var completer = Completer<Null>();
     _isResizing = completer.future;
-    String path;
+    String? path;
     try {
       path = await _channel.invokeMethod('resize', {
         'imagePath': imagePath,
